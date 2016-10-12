@@ -7,11 +7,12 @@ class Bot:
     def __init__(self, token):
         self.updater = Updater(token=token)
 
-    def command(self, func):
-        func_command = CommandHandler(func.__name__, func, pass_args = True)
-        self.updater.dispatcher.add_handler(func_command)
+    def command(self, cmdName, **options):
+        def decorator(func):
+            func_command = CommandHandler(cmdName, func, pass_args = True)
+            self.updater.dispatcher.add_handler(func_command)
 
-        return func
+        return decorator
 
     def text_message(self, func):
         func_command = MessageHandler([Filters.text], func)
@@ -30,15 +31,15 @@ class Bot:
 
 mybot = Bot('296158453:AAHGuPwmoMm0Nxcw_ClijQPhwbDdzj2VXoc')
 
-@mybot.command
+@mybot.command('echo')
 def echo(bot, update, args):
     bot.sendMessage(chat_id = update.message.chat_id, text = ' '.join(args))
 
-@mybot.command
-def say(bot, update, args):
-    bot.sendMessage(chat_id = update.message.chat_id, text = __name__)
+@mybot.command('repeat')
+def echo(bot, update, args):
+    bot.sendMessage(chat_id = update.message.chat_id, text = ' '.join(args))
 
-@mybot.command
+@mybot.command('now')
 def time(bot, update, args):
     bot.sendMessage(chat_id = update.message.chat_id, text = str(dt.now()))
 
