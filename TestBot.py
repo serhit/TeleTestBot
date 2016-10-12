@@ -1,7 +1,9 @@
 __author__ = 'serhit'
 
-from telegram.ext import Updater, MessageHandler, Filters, CommandHandler
 from datetime import datetime as dt
+
+from telegram.ext import Updater, MessageHandler, Filters, CommandHandler
+
 
 class Bot:
     def __init__(self, token):
@@ -50,6 +52,7 @@ def unknown(bot, update):
 @mybot.text_message
 def chat(bot, update):
     bot.sendMessage(chat_id = update.message.chat_id, text = 'Ok. I hear you. ' + update.message.text)
+
 
 
 mybot.run()
